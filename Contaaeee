@@ -1,0 +1,103 @@
+Conta
+
+
+public class Conta {
+
+    //Atributos
+    private int numeroConta;
+    private String titular;
+    protected double saldo;
+   
+    public Conta (int numeroConta, String titular){
+        this.numeroConta =  numeroConta;
+        this.titular = titular;
+    }  
+    public boolean depositar (double valor){
+        this.saldo += valor;
+        return true;
+    }  
+    public boolean sacar (double valor){
+        if (this.saldo < valor){
+            return false;
+        }
+        else{
+            this.saldo -= valor;
+            return true;
+        }      
+    }
+    public double getSaldo(){
+        return this.saldo;
+    }
+    public boolean transferir (Conta contaDestino,double valor){
+        boolean retirou = sacar(valor);
+        if(retirou){
+           contaDestino.depositar(valor);
+           return true;
+        }  
+        else{
+            return false;      
+        }  
+    }
+    public void gerarTaxa(){}
+}
+
+
+
+public class ContaCorrente extends Conta {
+   
+    public ContaCorrente (int numeroConta, String titular){
+        super(numeroConta, titular);    
+    }
+    public void gerarTaxa(){
+        saldo -= 6;
+    }
+
+
+
+public class ContaPoupanca extends Conta{
+   
+    public ContaPoupanca (int numeroConta, String titular){
+        super(numeroConta, titular);
+    }
+    public void gerarTaxa(){
+        saldo += saldo * 0.06;
+    }
+
+
+
+
+
+public class Principal {
+   
+    public static void main(String[] args) {
+    // TODO code application logic here
+       
+    Conta conta1 = new Conta(1, "Thaissa");
+    Conta conta2 = new ContaCorrente(1, "Thaissa");
+    Conta conta3 = new ContaPoupanca (1, "Thaissa");
+   
+    System.out.println(conta1.getSaldo());
+    conta1.depositar(1000);
+    System.out.println(conta1.getSaldo());
+    conta1.sacar(500);
+    System.out.println(conta1.getSaldo());
+    conta1.sacar(100);
+    System.out.println(conta1.getSaldo());
+    conta1.transferir(conta2, 50);
+    System.out.println(conta1.getSaldo());
+    conta1.transferir(conta1, 50);
+    System.out.println(conta1.getSaldo());
+    conta1.gerarTaxa();
+   
+    }
+
+
+
+
+
+
+
+
+
+
+
